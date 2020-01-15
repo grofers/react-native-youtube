@@ -45,6 +45,9 @@ public class YouTubeView extends FrameLayout {
     protected void onAttachedToWindow() {
         if (!mHasSavedInstance) {
             FragmentManager fragmentManager = getReactContext().getCurrentActivity().getFragmentManager();
+            if (fragmentManager.getFragments() != null && fragmentManager.getFragments().size() > 0) {
+                fragmentManager = fragmentManager.getFragments().get(0).getChildFragmentManager();
+            }
             fragmentManager.beginTransaction().add(getId(), mVideoFragment).commit();
         }
         super.onAttachedToWindow();
@@ -54,6 +57,9 @@ public class YouTubeView extends FrameLayout {
     protected void onDetachedFromWindow() {
         if (getReactContext().getCurrentActivity() != null) {
             FragmentManager fragmentManager = getReactContext().getCurrentActivity().getFragmentManager();
+            if (fragmentManager.getFragments() != null && fragmentManager.getFragments().size() > 0) {
+                fragmentManager = fragmentManager.getFragments().get(0).getChildFragmentManager();
+            }
 
             // Code crashes with java.lang.IllegalStateException: Activity has been destroyed
             // if our activity has been destroyed when this runs
